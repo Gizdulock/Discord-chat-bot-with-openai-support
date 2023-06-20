@@ -1,0 +1,16 @@
+{
+  "name": "discord-chat-bot-with-openai-support",
+  "version": "1.0.0",
+  "description": "A Discord bot that uses OpenAI's GPT-3 to interact with users.",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0",
+    "openai": "^3.3.0",
+    "winston": "^3.3.3"
+  }
+}
+
