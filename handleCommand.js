@@ -1,20 +1,18 @@
 require('dotenv').config();
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { CommandInteraction } = require('discord.js');
-const quotaHandler = require('./quotaHandler');
-const openai = require('openai');
+const { generateResponse } = require('./openaiHandler');
 
-openai.apiKey = process.env.OPENAI_API_KEY;
-
-function handleCommand(interaction) {
-  const commandName = interaction.commandName;
+function handleCommand(message, prefix) {
+  const commandName = message.content.slice(prefix.length).trim().split(/ +/)[0];
 
   const command = commands.find(cmd => cmd.data.name === commandName);
 
   if (!command) return;
 
-  command.execute(interaction);
+  command.execute(message);
 }
+
 
 const commands = [
   {
@@ -40,13 +38,9 @@ const commands = [
     data: new SlashCommandBuilder().setName('chat').setDescription('Start a conversation with ChatGPT.'),
     async execute(interaction = new CommandInteraction()) {
       const prompt = interaction.options.getString('message');
-      const response = await openai.Completion.create({
-        engine: 'text-davinci-002',
-        prompt: prompt,
-        max_tokens: 60
-      });
+      const response = await generateResponse(process.env.OPENAI_API_KEY, prompt);
 
-      const messages = response.choices[0].text.trim().split(/\n|\r/);
+      const messages = response.split(/\n|\r/);
       for (const message of messages) {
         await interaction.reply(message);
         await new Promise(resolve => setTimeout(resolve, 200));
