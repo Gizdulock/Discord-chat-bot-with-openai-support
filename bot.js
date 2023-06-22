@@ -22,12 +22,5 @@ client.on('messageCreate', message => {
   handleCommand(message);
 });
 
-
-client.on('messageCreate', message => {
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
-
-  handleCommand(message);
-});
-
 client.login(DISCORD_BOT_TOKEN);
 
