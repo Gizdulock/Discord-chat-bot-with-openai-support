@@ -3,14 +3,11 @@ const { Client, Intents } = require('discord.js');
 const { DISCORD_BOT_TOKEN, CLIENT_ID, GUILD_ID } = process.env;
 const { handleCommand } = require('./handleCommand.js');
 const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-<<<<<<< HEAD
-=======
+const { Routes } = require('discord-api-types/v9');l
 const { guildId, prefix } = require('./config.json');
 const { loadConfig } = require('./configHandler.js');
 
-const config = loadConfig();
->>>>>>> push3
+const config = loadConfig();l
 
 const client = new Client({
   intents: [
@@ -33,7 +30,6 @@ client.on('interactionCreate', interaction => {
 const commands = []; // A parancsokat tartalmazó tömb
 const rest = new REST({ version: '9' }).setToken(DISCORD_BOT_TOKEN);
 
-<<<<<<< HEAD
 (async () => {
   try {
     console.log('Started refreshing application (/) commands.');
@@ -42,7 +38,7 @@ const rest = new REST({ version: '9' }).setToken(DISCORD_BOT_TOKEN);
       Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
       { body: commands },
     );
-=======
+
 client.once('ready', async () => {
   console.log('A bot elindult.');
 
@@ -82,7 +78,6 @@ client.once('ready', async () => {
     }
   })();
 });
->>>>>>> push3
 
     console.log('Successfully reloaded application (/) commands.');
   } catch (error) {

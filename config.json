@@ -1,6 +1,0 @@
-{
-  "guildId": "your guild id",
-  "channelId": "channelid",
-  "warningRecipient": "@your-role-or-user", 
-  "prefix": ";"
-}
