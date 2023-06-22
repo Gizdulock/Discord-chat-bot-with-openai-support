@@ -1,9 +1,10 @@
+require('dotenv').config();
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { CommandInteraction } = require('discord.js');
 const quotaHandler = require('./quotaHandler');
 const openai = require('openai');
 
-openai.apiKey = process.env.API_KEY;
+openai.apiKey = process.env.OPENAI_API_KEY;
 
 function handleCommand(interaction) {
   const commandName = interaction.commandName;

@@ -1,13 +1,15 @@
 require('dotenv').config();
 const { Client, Intents } = require('discord.js');
-const { DISCORD_BOT_TOKEN, CLIENT_ID, GUILD_ID } = process.env;
+const { DISCORD_BOT_TOKEN, CLIENT_ID } = process.env;
 const { handleCommand } = require('./handleCommand.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { guildId, prefix } = require('./config.json');
 const { loadConfig } = require('./configHandler.js');
+const openai = require('openai');
 
 const config = loadConfig();
+openai.apiKey = process.env.OPENAI_API_KEY;
 
 const client = new Client({
   intents: [
