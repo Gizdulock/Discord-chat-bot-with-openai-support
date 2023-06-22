@@ -23,12 +23,6 @@ client.on('messageCreate', message => {
   handleCommand(message);
 });
 
-client.on('messageCreate', message => {
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
-
-  handleCommand(message);
-});
-
 const commands = []; // A parancsokat tartalmazó tömb
 const rest = new REST({ version: '9' }).setToken(DISCORD_BOT_TOKEN);
 
