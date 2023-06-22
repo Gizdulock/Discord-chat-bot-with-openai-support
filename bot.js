@@ -4,6 +4,13 @@ const { DISCORD_BOT_TOKEN, CLIENT_ID, GUILD_ID } = process.env;
 const { handleCommand } = require('./handleCommand.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
+<<<<<<< HEAD
+=======
+const { guildId, prefix } = require('./config.json');
+const { loadConfig } = require('./configHandler.js');
+
+const config = loadConfig();
+>>>>>>> push3
 
 const client = new Client({
   intents: [
@@ -17,15 +24,16 @@ const client = new Client({
   ]
 });
 
-client.on('messageCreate', message => {
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
+client.on('interactionCreate', interaction => {
+  if (!interaction.isCommand()) return;
 
-  handleCommand(message);
+  handleCommand(interaction);
 });
 
 const commands = []; // A parancsokat tartalmazó tömb
 const rest = new REST({ version: '9' }).setToken(DISCORD_BOT_TOKEN);
 
+<<<<<<< HEAD
 (async () => {
   try {
     console.log('Started refreshing application (/) commands.');
@@ -34,6 +42,47 @@ const rest = new REST({ version: '9' }).setToken(DISCORD_BOT_TOKEN);
       Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
       { body: commands },
     );
+=======
+client.once('ready', async () => {
+  console.log('A bot elindult.');
+
+  const rest = new REST({ version: '9' }).setToken(DISCORD_BOT_TOKEN);
+
+  (async () => {
+    try {
+      console.log('Az alkalmazás (/) parancsok frissítése elkezdődött.');
+
+      const commands = [
+        {
+          name: 'quota',
+          description: 'Display current API quota usage.'
+        },
+        {
+          name: 'status',
+          description: 'Display bot status.'
+        },
+        {
+          name: 'help',
+          description: 'Display list of commands.'
+        },
+        {
+          name: 'chat',
+          description: 'Start a conversation with ChatGPT.'
+        }
+      ];
+
+      await rest.put(
+        Routes.applicationCommands(client.user.id),
+        { body: commands },
+      );
+
+      console.log('Az alkalmazás (/) parancsok sikeresen frissítve lettek.');
+    } catch (error) {
+      console.error(error);
+    }
+  })();
+});
+>>>>>>> push3
 
     console.log('Successfully reloaded application (/) commands.');
   } catch (error) {

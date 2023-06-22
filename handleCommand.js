@@ -5,16 +5,26 @@ const openai = require('openai');
 
 openai.apiKey = process.env.API_KEY;
 
+<<<<<<< HEAD
 function handleCommand(message, prefix) {
   const commandName = message.content.slice(prefix.length).trim().split(/ +/)[0];
+=======
+function handleCommand(interaction) {
+  const commandName = interaction.commandName;
+>>>>>>> push3
 
   const command = commands.find(cmd => cmd.data.name === commandName);
 
   if (!command) return;
 
+<<<<<<< HEAD
   command.execute(message);
 }
 
+=======
+  command.execute(interaction);
+}
+>>>>>>> push3
 
 const commands = [
   {
