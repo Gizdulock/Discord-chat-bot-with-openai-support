@@ -19,8 +19,8 @@ const client = new Client({
 client.on('messageCreate', message => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-  handleCommand(message);
+  handleCommand(message, prefix);
 });
 
-client.login(DISCORD_BOT_TOKEN);
 
+client.login(DISCORD_BOT_TOKEN);
