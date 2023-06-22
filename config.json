@@ -1,12 +1,6 @@
 {
-<<<<<<< HEAD
-  "guild_id": "your guild id",
+  "guildId": "your guild id",
   "channelId": "channelid",
-  "warningRecipient": "@your-role-or-user",
-=======
-  "guildId": "588694041898647574",
-  "channelId": "1095701093381578752",
-  "warningRecipient": "588697085570842636",
->>>>>>> push3
+  "warningRecipient": "@your-role-or-user", 
   "prefix": ";"
 }
