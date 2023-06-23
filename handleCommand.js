@@ -11,7 +11,7 @@ async function execute(interaction) {
   try {
     console.log('Sending prompt to OpenAI API:', prompt);
     const response = await openai.Completion.create({
-      engine: 'text-davinci-002',
+      model: 'gpt-3.5-turbo',
       prompt: prompt,
       max_tokens: 60
     });
