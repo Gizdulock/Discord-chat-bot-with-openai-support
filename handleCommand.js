@@ -17,12 +17,13 @@ async function execute(interaction) {
         top_p: 1,
         frequency_penalty: 0,
         presence_penalty: 0,
-     });
-  return response.choices[0].text.trim();
-}
+      });
+      return response.choices[0].text.trim();
+    }
 
+    const response = await generateResponse(prompt); // Add this line
     console.log('Received response from OpenAI API:', response);
-    await interaction.reply(response.choices[0].text.trim());
+    await interaction.reply(response);
   } catch (error) {
     console.error('Error occurred during OpenAI API call:', error);
     await interaction.reply('An error occurred while processing your request. Please try again later.');
