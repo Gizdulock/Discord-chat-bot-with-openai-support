@@ -9,4 +9,4 @@ module.exports = {
   async execute(interaction) {
     handleCommand(interaction);
   },
-;
+};
