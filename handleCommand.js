@@ -1,11 +1,5 @@
-const {Configuration, OpenAIApi} = require('openai');
-require('dotenv').config();
-
-// Set the API key
-Configuration.setApiKey(process.env.OPENAI_API_KEY);
-
-// Create an instance of the API
-const openai = new OpenAIApi();
+const { OpenAIApi } = require('openai');
+const openai = new OpenAIApi(process.env.OPENAI_API_KEY);
 
 async function execute(interaction) {
   const message = interaction.options.getString('message');
@@ -13,10 +7,10 @@ async function execute(interaction) {
 
   try {
     console.log('Sending prompt to OpenAI API:', prompt);
-    const response = await openai.createCompletion({
+    const response = await openai.complete({
       model: 'gpt-3.5-turbo',
       prompt: prompt,
-      max_tokens: 60
+      max_tokens: 256
     });
     console.log('Received response from OpenAI API:', response);
     await interaction.reply(response.choices[0].text.trim());
@@ -27,5 +21,12 @@ async function execute(interaction) {
 };
 
 module.exports = {
-  execute,
+  data: new SlashCommandBuilder()
+    .setName('chat')
+    .setDescription('Chat with AI')
+    .addStringOption(option =>
+      option.setName('message')
+        .setDescription('Message to send to AI')
+        .setRequired(true)),
+  execute
 };
