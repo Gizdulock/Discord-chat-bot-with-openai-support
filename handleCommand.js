@@ -1,3 +1,4 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const { OpenAIApi } = require('openai');
 const openai = new OpenAIApi(process.env.OPENAI_API_KEY);
 
@@ -10,7 +11,7 @@ async function execute(interaction) {
     const response = await openai.complete({
       model: 'gpt-3.5-turbo',
       prompt: prompt,
-      max_tokens: 256
+      max_tokens: 60
     });
     console.log('Received response from OpenAI API:', response);
     await interaction.reply(response.choices[0].text.trim());
