@@ -23,9 +23,16 @@ for (const file of commandFiles) {
   client.commands.set(command.data.name, command);
 }
 
-client.once('ready', () => {
+client.once('ready', async () => {
   console.log('Ready!');
+
+  // Register all commands as global commands
+  const commands = client.commands.map(({ data }) => data);
+  await client.application.commands.set(commands);
+
+  console.log('Commands registered!');
 });
+ 
 
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
