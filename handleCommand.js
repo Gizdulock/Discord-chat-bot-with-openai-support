@@ -8,11 +8,19 @@ async function execute(interaction) {
 
   try {
     console.log('Sending prompt to OpenAI API:', prompt);
-    const gptResponse = await openai.createCompletion({
-      model: 'gpt-3.5-turbo',
-      prompt: prompt,
-      max_tokens: 60
-    });
+    async function generateResponse(prompt) {
+      const response = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: prompt,
+        temperature: 0.9,
+        max_tokens: 256,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+     });
+  return response.choices[0].text.trim();
+}
+
     console.log('Received response from OpenAI API:', response);
     await interaction.reply(response.choices[0].text.trim());
   } catch (error) {
