@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { OpenAIApi } = require('openai');
 const openai = new OpenAIApi(process.env.OPENAI_API_KEY);
