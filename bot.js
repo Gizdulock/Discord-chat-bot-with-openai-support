@@ -7,7 +7,6 @@ const { Routes } = require('discord-api-types/v9');
 const { guildId, prefix } = require('./config.json');
 const { loadConfig } = require('./configHandler.js');
 const openai = require('openai');
-const { OpenAI } = require('openai-api');
 
 const config = loadConfig();
 openai.apiKey = process.env.OPENAI_API_KEY;
