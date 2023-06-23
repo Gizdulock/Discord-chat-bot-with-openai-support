@@ -1,8 +1,11 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const openai = require('openai');
+const {Configuration, OpenAIApi} = require('openai');
 require('dotenv').config();
 
-openai.apiKey = process.env.OPENAI_API_KEY;
+// Set the API key
+Configuration.setApiKey(process.env.OPENAI_API_KEY);
+
+// Create an instance of the API
+const openai = new OpenAIApi();
 
 async function execute(interaction) {
   const message = interaction.options.getString('message');
@@ -10,7 +13,7 @@ async function execute(interaction) {
 
   try {
     console.log('Sending prompt to OpenAI API:', prompt);
-    const response = await openai.Completion.create({
+    const response = await openai.createCompletion({
       model: 'gpt-3.5-turbo',
       prompt: prompt,
       max_tokens: 60
