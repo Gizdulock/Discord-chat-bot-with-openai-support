@@ -1,72 +1,35 @@
 require('dotenv').config();
-const { Client, Intents } = require('discord.js');
-const { DISCORD_BOT_TOKEN, CLIENT_ID } = process.env;
+const fs = require('fs');
+const { Client, Collection, Intents } = require('discord.js');
 const { handleCommand } = require('./handleCommand.js');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-const { guildId, prefix } = require('./config.json');
-const { loadConfig } = require('./configHandler.js');
-const openai = require('openai');
 
-const config = loadConfig();
-openai.apiKey = process.env.OPENAI_API_KEY;
+const client = new Client({intents: [Intents.FLAGS.Guilds, Intents.FLAGS.GuildMessages, Intents.FLAGS.DirectMessages]});
 
-const client = new Client({
-  intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Intents.FLAGS.DIRECT_MESSAGES,
-    Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
-    Intents.FLAGS.GUILD_MESSAGE_TYPING,
-    Intents.FLAGS.DIRECT_MESSAGE_TYPING
-  ]
+client.commands = new Collection();
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+  client.commands.set(command.data.name, command);
+}
+
+client.once('ready', () => {
+  console.log('Ready!');
 });
 
-client.on('interactionCreate', interaction => {
+client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
 
-  handleCommand(interaction);
+  const command = client.commands.get(interaction.commandName);
+
+  if (!command) return;
+
+  try {
+    await command.execute(interaction);
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+  }
 });
 
-client.once('ready', async () => {
-  console.log('A bot elindult.');
-
-  const rest = new REST({ version: '9' }).setToken(DISCORD_BOT_TOKEN);
-
-  (async () => {
-    try {
-      console.log('Az alkalmazás (/) parancsok frissítése elkezdődött.');
-
-      const commands = [
-        {
-          name: 'quota',
-          description: 'Display current API quota usage.'
-        },
-        {
-          name: 'status',
-          description: 'Display bot status.'
-        },
-        {
-          name: 'help',
-          description: 'Display list of commands.'
-        },
-        {
-          name: 'chat',
-          description: 'Start a conversation with ChatGPT.'
-        }
-      ];
-
-      await rest.put(
-        Routes.applicationCommands(client.user.id),
-        { body: commands },
-      );
-
-      console.log('Az alkalmazás (/) parancsok sikeresen frissítve lettek.');
-    } catch (error) {
-      console.error(error);
-    }
-  })();
-});
-
-client.login(DISCORD_BOT_TOKEN);
+client.login(process.env.DISCORD_BOT_TOKEN);
