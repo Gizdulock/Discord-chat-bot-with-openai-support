@@ -8,7 +8,7 @@ async function execute(interaction) {
 
   try {
     console.log('Sending prompt to OpenAI API:', prompt);
-    const response = await openai.complete({
+    const gptResponse = await openai.createCompletion({
       model: 'gpt-3.5-turbo',
       prompt: prompt,
       max_tokens: 60
