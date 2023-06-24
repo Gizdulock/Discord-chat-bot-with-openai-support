@@ -6,7 +6,7 @@ async function generateResponse(message) {
 
   try {
     const gptResponse = await axios.post('https://api.openai.com/v1/engines/text-davinci-003/completions', {
-      engine: 'text-davinci-003',
+      model: 'gpt-3.5-turbo',
       prompt: prompt,
       maxTokens: 100,
       temperature: 0.7,
