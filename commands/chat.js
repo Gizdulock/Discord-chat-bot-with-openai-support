@@ -12,7 +12,7 @@ module.exports = {
   async execute(interaction) {
     const message = interaction.options.getString('message');
     const formattedMessage = message.replace(/:/g, ': ');
-    interaction.options.setString('message', formattedMessage);
+    interaction.options.get('message').value = formattedMessage;
     await execute(interaction);
   },
 };
