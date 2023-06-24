@@ -5,7 +5,7 @@ async function generateResponse(message) {
   const prompt = `The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nUser: ${message}\nAI:`;
 
   try {
-    const gptResponse = await axios.post('https://api.openai.com/v1/engines/text-davinci-003/completions', {
+    const gptResponse = await axios.post('https://api.openai.com/v1/completions', {
       model: 'gpt-3.5-turbo',
       prompt: prompt,
       maxTokens: 100,
