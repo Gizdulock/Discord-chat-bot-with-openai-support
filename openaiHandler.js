@@ -1,7 +1,6 @@
 require('dotenv').config();
-const OpenAI = require('openai');
-
-const openai = new OpenAI(process.env.OPENAI_API_KEY);
+const { OpenAIApi } = require('openai');
+const openai = new OpenAIApi(process.env.OPENAI_API_KEY); 
 
 async function generateResponse(message) {
   const prompt = `The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nUser: ${message}\nAI:`;
