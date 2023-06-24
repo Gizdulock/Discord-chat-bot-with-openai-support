@@ -17,7 +17,7 @@ async function generateResponse(message) {
     const gptResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
       model: 'gpt-3.5-turbo',
       messages: messages,
-      max_tokens: 100,
+      max_tokens: 1024,
       temperature: 0.7,
       top_p: 0.9,
       frequency_penalty: 0,
