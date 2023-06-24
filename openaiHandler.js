@@ -10,7 +10,7 @@ async function generateResponse(message) {
       prompt: prompt,
       maxTokens: 100,
       temperature: 0.7,
-      topP: 1,
+      topP: 0.9,
       frequencyPenalty: 0,
       presencePenalty: 0,
     }, {
