@@ -6,7 +6,7 @@ async function generateResponse(message) {
   const prompt = `The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nUser: ${message}\nAI:`;
 
   try {
-    const gptResponse = await openai.complete({
+    const gptResponse = await openai.createCompletion({
       engine: 'text-davinci-003',
       prompt: prompt,
       maxTokens: 100,
