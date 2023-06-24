@@ -10,6 +10,9 @@ module.exports = {
         .setDescription('Message to send to the AI')
         .setRequired(true)),
   async execute(interaction) {
+    const message = interaction.options.getString('message');
+    const formattedMessage = message.replace(/:/g, ': ');
+    interaction.options.setString('message', formattedMessage);
     await execute(interaction);
   },
 };
