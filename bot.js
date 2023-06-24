@@ -4,6 +4,7 @@ const { Routes } = require('discord-api-types/v9');
 const { Client, Collection, Intents } = require('discord.js');
 const fs = require('fs');
 const config = require('./config.json');
+const { execute } = require('./commandHandler.js');
 
 const commands = [];
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -48,6 +49,8 @@ for (const file of commandFiles) {
   client.commands.set(command.data.name, command);
 }
 
+let chatEnabled = false;
+
 client.once('ready', () => {
   console.log('Ready!');
 });
@@ -60,10 +63,22 @@ client.on('interactionCreate', async interaction => {
   if (!command) return;
 
   try {
-    await command.execute(interaction);
+    if (interaction.commandName === 'togglechat') {
+      chatEnabled = !chatEnabled;
+      await interaction.reply(`Chat mode has been ${chatEnabled ? 'enabled' : 'disabled'}.`);
+    } else {
+      await command.execute(interaction);
+    }
   } catch (error) {
     console.error(error);
     await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+  }
+});
+
+client.on('messageCreate', async message => {
+  if (chatEnabled && !message.author.bot) {
+    const interaction = { options: { getString: () => message.content }, reply: message.reply.bind(message) };
+    await execute(interaction);
   }
 });
 
